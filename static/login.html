@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login & Signup Form</title>
+    <link rel="stylesheet" href="/static/login.css" />
+</head>
+
+<body>
+    <section class="wrapper">
+        <div class="logo">
+            <a href="/static/home.html" class="back">< back</a>
+        </div>
+        <div class="form signup">
+            <header>Signup</header>
+            <p>If you already have an account, please login.</p>
+            <form action="#">
+                <input type="text" id="nama" placeholder="Full name" required />
+                <input type="text" id="email" placeholder="Email address" required />
+                <input type="password" id="password" placeholder="Password" required />
+                <div class="checkbox">
+                    <input type="checkbox" id="signupCheck" />
+                    <label for="signupCheck">I accept all terms & conditions</label>
+                </div>
+                <input type="submit" id="regisbutton" value="Signup" />
+            </form>
+        </div>
+
+        <div class="form login">
+            <header>Login</header>
+            <form action="#">
+                <input type="text" id="email2" placeholder="Email address" required />
+                <input type="password" id="password2" placeholder="Password" required />
+                <a href="#">Forgot password?</a>
+                <input type="submit" id="loginbutton" value="Login" />
+            </form>
+        </div>
+        <script>
+            const wrapper = document.querySelector(".wrapper"),
+                signupHeader = document.querySelector(".signup header"),
+                loginHeader = document.querySelector(".login header");
+        
+            loginHeader.addEventListener("click", () => {
+                wrapper.classList.add("active");
+            });
+            signupHeader.addEventListener("click", () => {
+                wrapper.classList.remove("active");
+            });
+        
+            // Registration
+            var regisBtn = document.getElementById("regisbutton")
+            var regisNama = document.getElementById("nama")
+            var regisPass = document.getElementById("password")
+            var regisEmail = document.getElementById("email")
+        
+            regisBtn.addEventListener("click", register);
+        
+            function register() {
+                fetch("http://localhost:4500/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        nama: regisNama.value,
+                        email: regisEmail.value,
+                        password: regisPass.value,
+                    })
+                })
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    return Promise.reject(response);
+                })
+                .then(function (data) {
+                    alert(data.message);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+        
+            // Login
+            var loginBtn = document.getElementById("loginbutton")
+            var loginEmail = document.getElementById("email2")
+            var loginPassword = document.getElementById("password2")
+        
+            loginBtn.addEventListener("click", login);
+        
+            function login() {
+                fetch("http://localhost:4500/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email2: loginEmail.value,
+                        password2: loginPassword.value,
+                    })
+                })
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    return Promise.reject(response);
+                })
+                .then(function (data) {
+                    alert(data.message);
+                    localStorage.setItem("user", JSON.stringify(data.data))
+                    window.location.replace("http://localhost:4500/static/home.html")
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+        </script>        
+
+    </section>
+</body>
+
+</html>
