@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('./index'); // Adjust the path as needed
+const sequelize = require('./index'); 
 
 const User = sequelize.define('User', {
   nama: {
@@ -15,6 +15,10 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  timestamps: true, 
+  createdAt: 'created_at', 
+  updatedAt: 'updated_at', 
 });
 
 module.exports = User;
