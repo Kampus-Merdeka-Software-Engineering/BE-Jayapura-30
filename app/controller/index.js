@@ -1,14 +1,9 @@
-const { User } = require('../model/user'); 
+const User  = require('../model/user'); 
 
 // Register function
 async function register(req, res) {
   try {
     const { nama, email, password } = req.body;
-
-    // Check if all required fields are provided
-    if (!nama || !email || !password) {
-      return res.status(400).json({ success: false, error: 'All fields are required' });
-    }
 
     // Create a new user 
     const newUser = await User.create({ nama, email, password });
@@ -25,7 +20,7 @@ async function login(req, res) {
     const { email, password } = req.body;
 
     // Find the user by email
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email:email } });
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
