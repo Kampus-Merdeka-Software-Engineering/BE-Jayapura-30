@@ -7,4 +7,5 @@ const sequelize = new Sequelize(process.env.MYSQLDATABASE, process.env.MYSQLUSER
     dialect: 'mysql'
 });
 
+
 module.exports = sequelize;
