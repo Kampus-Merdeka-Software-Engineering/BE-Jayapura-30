@@ -14,10 +14,10 @@ app.use("/", mainRouter);
 
 const port = process.env.PORT || 4500;
 
-const sequelize = new Sequelize('system_login', 'root', '447733', {
-  host: 'localhost',
-  dialect: 'mysql',
-  logging: false
+const sequelize = new Sequelize(process.env.MYSQLDATABASE, process.env.MYSQLUSER, process.env.MYSQLPASSWORD, {
+  host: process.env.MYSQLHOST,
+  port: process.env.MYSQLPORT,
+  dialect: 'mysql'
 });
 
 
