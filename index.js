@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const { Sequelize } = require('sequelize');
+const path = require('path');
 const mainRouter = require('./app/routes');
 
 const app = express();
@@ -8,7 +9,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/", mainRouter);
+
+
+
 
 const port = process.env.PORT || 4500;
 
@@ -17,6 +20,9 @@ const sequelize = new Sequelize('system_login', 'root', '447733', {
   dialect: 'mysql',
   logging: false
 });
+
+app.use("/", mainRouter);
+
 
 async function startServer() {
   try {

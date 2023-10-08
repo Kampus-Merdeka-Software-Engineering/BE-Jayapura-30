@@ -1,5 +1,8 @@
+const nodemailer = require('nodemailer');
 const User  = require('../model/user'); 
-const Booking = require('../model/booking')
+const Booking = require('../model/booking');
+
+
 // Register function
 async function register(req, res) {
   try {
@@ -40,9 +43,16 @@ async function login(req, res) {
 // Booking function
 async function booking(req, res) {
   try {
-    const { full_name, email, phone_number, birthdate, service, appointment_date} = req.body;
+    const { full_name, email, phone_number, birthdate, service, appointment_date } = req.body;
 
-    // Proceed to create the booking with the valid user_id
+    // Cari pengguna berdasarkan alamat email
+    const user = await User.findOne({ where: { email:email } });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Buat booking dengan user_id yang terkait
     const newBooking = await Booking.create({
       full_name,
       email,
@@ -50,13 +60,43 @@ async function booking(req, res) {
       birthdate,
       service,
       appointment_date,
+      user_id: User.id, //
     });
 
-    // Handle the response for the successful booking creation
-    res.json({ success: true, message: 'Booking created successfully', booking: newBooking });
+    // Kirim email konfirmasi ke pengguna
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+       user: 'omandentalcare@gmail.com',
+       pass: 'eyru xscu xxcb owqa',
+      },
+     });
+
+    const mailOptions = {
+      from: 'omandentalcare@gmail.com',
+      to: user.email,
+      subject: 'Booking Confirmation',
+      text: 'Thankyou, We are pleased to inform you that your appointment has been successfully scheduled with Oman Dental Care. Thank you for choosing us, and we look forward to serving you. ',
+    };
+
+    // Kirim email konfirmasi
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log('Pesan tidak dapat dikirim:', error);
+      } else {
+        console.log('Pesan telah berhasil dikirim:', info.response);
+      }
+    });
+
+    res.json({ success: true, message: 'Booking successfully', booking: newBooking });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 }
+
+
 
 module.exports = { register, login, booking };
