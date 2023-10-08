@@ -12,28 +12,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", mainRouter);
 
 
-const port = process.env.PORT || 4500;
-
 const sequelize = new Sequelize(process.env.MYSQLDATABASE, process.env.MYSQLUSER, process.env.MYSQLPASSWORD, {
   host: process.env.MYSQLHOST,
   port: process.env.MYSQLPORT,
-  dialect: 'mysql'
+  dialect:'mysql'
 });
 
 
 
-async function startServer() {
-  try {
-    await sequelize.authenticate();
-    console.log('Database authenticated');
-    await sequelize.sync({ alter: true }); // Synchronize database schema for non-destructive migrations
-    app.listen(port, () => {
-      console.log('Server is running on port 4500');
-    });
-  } catch (error) {
-    console.error('Error authenticating database:', error);
-    process.exit(1);
-  }
-}
+const port = 4500
+app.listen(port, function(){
+    console.log("server start on", port)
+    sequelize.authenticate()
+    .then(function(){
+        console.log("Database terhubung")
+    })
+    .catch(function(err){
+        console.log("Error saat koneksi ke database", err)
+        process.exit()
+    })
+})
 
-startServer();
