@@ -1,6 +1,8 @@
+require('dotenv').config();
 const nodemailer = require('nodemailer');
 const User  = require('../model/user'); 
 const Booking = require('../model/booking');
+const { request } = require('express');
 
 
 // Register function
@@ -64,14 +66,16 @@ async function booking(req, res) {
     });
 
     // Kirim email konfirmasi ke pengguna
+    const smtpUsername = process.env.SMTP_USERNAME;
+    const smtpPassword = process.env.SMTP_PASSWORD;
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       host: 'smtp.gmail.com',
       port: 465,
       secure: true,
       auth: {
-       user: 'omandentalcare@gmail.com',
-       pass: 'eyru xscu xxcb owqa',
+       user: smtpUsername,
+       pass: smtpPassword,
       },
      });
 
