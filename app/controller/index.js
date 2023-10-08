@@ -1,5 +1,5 @@
 const User  = require('../model/user'); 
-
+const Booking = require('../model/booking')
 // Register function
 async function register(req, res) {
   try {
@@ -37,4 +37,26 @@ async function login(req, res) {
   }
 }
 
-module.exports = { register, login };
+// Booking function
+async function booking(req, res) {
+  try {
+    const { full_name, email, phone_number, birthdate, service, appointment_date} = req.body;
+
+    // Proceed to create the booking with the valid user_id
+    const newBooking = await Booking.create({
+      full_name,
+      email,
+      phone_number,
+      birthdate,
+      service,
+      appointment_date,
+    });
+
+    // Handle the response for the successful booking creation
+    res.json({ success: true, message: 'Booking created successfully', booking: newBooking });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+}
+
+module.exports = { register, login, booking };

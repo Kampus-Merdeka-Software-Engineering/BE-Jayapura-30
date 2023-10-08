@@ -7,6 +7,9 @@ const controller = require('./controller/index'); // Import controller
 router.post('/register', controller.register);
 
 // Login route
-router.post('/login', controller.login);
+router.post('/login', controller.login); 
+
+// Booking roure
+router.post('/booking', controller.booking);
 
 module.exports = router;
