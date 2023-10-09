@@ -18,11 +18,13 @@ const Booking = conn.define('Booking', {
   },
   gender: {
     type: DataTypes.ENUM('Male', 'Female', 'Prefer not to say'),
-    allowNull: false,
+    allowNull: true, 
+    defaultValue: null, 
   },
   service: {
     type: DataTypes.ENUM('Dental Checkup', 'Teeth Cleaning', 'Cavity Fillings', 'Braces Installation', 'Teeth Whitening', 'Gum Treatment', 'Denture Fitting'),
-    allowNull: false,
+    allowNull: true, 
+    defaultValue: null, 
   },
   appointment_date: {
     type: DataTypes.DATE,
