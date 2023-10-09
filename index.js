@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", mainRouter);
 
 
-const port = 4500
+const port = 3000
 app.listen(port, function(){
     console.log("server start on", port)
     conn.authenticate()
