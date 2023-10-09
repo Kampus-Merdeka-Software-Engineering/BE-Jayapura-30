@@ -1,11 +1,12 @@
 const { Sequelize } = require('sequelize');
-require('dotenv').config();
+const mysql = require('mysql2')
+const fs = require('fs')
+const path = require('path')
 
-const sequelize = new Sequelize(process.env.MYSQLDATABASE, process.env.MYSQLUSER, process.env.MYSQLPASSWORD, {
-    host: process.env.MYSQLHOST,
-    port: process.env.MYSQLPORT,
-    dialect: 'mysql'
+const conn = new Sequelize("mysql://avnadmin:AVNS_QUDKyLHvQFQMuqTcc2h@mysql-365e68a1-capstoneproject-group30.aivencloud.com:19317/defaultdb?ssl-mode=REQUIRED", {
+    ssl: fs.readFileSync(path.join(__dirname, 'ca (1).pem')),
+    dialect: 'mysql',
+    logging: false
 });
 
-
-module.exports = sequelize;
+module.exports = conn;

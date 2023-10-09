@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const mainRouter = require('./app/routes');
-const sequelize = require('./app/model/index')
+const conn = require("./app/model/index");
 
 const app = express();
 require('dotenv').config();
@@ -15,7 +15,7 @@ app.use("/", mainRouter);
 const port = 4500
 app.listen(port, function(){
     console.log("server start on", port)
-    sequelize.authenticate()
+    conn.authenticate()
     .then(function(){
         console.log("Database terhubung")
     })

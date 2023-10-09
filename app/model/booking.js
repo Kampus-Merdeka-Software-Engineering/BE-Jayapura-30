@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('./index');
+const conn = require('./index');
 
-const Booking = sequelize.define('Booking', {
+const Booking = conn.define('Booking', {
   full_name: {
     type: DataTypes.STRING,
     allowNull: false,
