@@ -45,7 +45,7 @@ async function login(req, res) {
 // Booking function
 async function booking(req, res) {
   try {
-    const { full_name, email, phone_number, birthdate, gender, service, appointment_date } = req.body;
+    const { full_name, email, phone_number, birthdate, new_gender, service, appointment_date } = req.body;
 
     // Cari pengguna berdasarkan alamat email
     const user = await User.findOne({ where: { email:email } });
@@ -61,7 +61,7 @@ async function booking(req, res) {
       phone_number,
       birthdate,
       service,
-      gender,
+      new_gender,
       appointment_date,
       user_id: User.id, //
     });
