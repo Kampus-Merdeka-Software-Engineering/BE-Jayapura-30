@@ -17,7 +17,7 @@ const Booking = conn.define('Booking', {
     type: DataTypes.DATE,
   },
   gender: {
-    type: DataTypes.ENUM('Male', 'Female', 'Prefer not to say'),
+    type: DataTypes.ENUM('male','Female','prefer not to say'),
     allowNull: true, 
     defaultValue: null, 
   },
